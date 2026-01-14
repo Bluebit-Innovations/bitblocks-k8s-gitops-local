@@ -1,0 +1,37 @@
+config:
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: file:///tmp/argocd_deployed_apps
+      targetRevision: main
+
+
+applications:
+  - name: blue-green
+    sourceHelm: false
+    tool:
+      helm:
+        releaseName: blue-green
+
+  # - name: nginx
+  #   namespace: nginx
+  #   sourceHelm: true
+  #   repoURL: registry-1.docker.io/bitnamicharts
+  #   targetRevision: 15.9.0
+  #   tool:
+  #     helm:
+  #       releaseName: nginx
+
+  # - name: ingress-nginx
+  #   namespace: ingress-nginx
+  #   chart: ingress-nginx
+  #   sourceHelm: true
+  #   repoURL: https://kubernetes.github.io/ingress-nginx
+  #   targetRevision: 4.14.1
+  #   tool:
+  #     helm:
+  #       releaseName: ingress-nginx
+  #       valueFiles:
+  #         - ingress-nginx/values-nginx.yaml 
+        
