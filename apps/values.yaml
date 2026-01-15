@@ -3,7 +3,7 @@ config:
     destination:
       server: https://kubernetes.default.svc
     source:
-      repoURL: file:///tmp/argocd_deployed_apps
+      repoURL: https://github.com/Bluebit-Innovations/bitblocks-k8s-gitops-local
       targetRevision: main
 
 

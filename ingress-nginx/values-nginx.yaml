@@ -1,0 +1,57 @@
+controller:
+  service:
+    # -- Enable controller services or not. This does not influence the creation of either the admission webhook or the metrics service.
+    enabled: true
+    external:
+      # -- Enable the external controller service or not. Useful for internal-only deployments.
+      enabled: true
+      # -- Labels to be added to the external controller service.
+      labels: {}
+    # -- Annotations to be added to the external controller service. See `controller.service.internal.annotations` for annotations to be added to the internal controller service.
+    annotations: {}
+    # -- Labels to be added to both controller services.
+    labels: {}
+    # -- Type of the external controller service.
+    # Ref: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    type: NodePort
+  image:
+    # Explicitly set to null to allow OpenShift to assign a random UID
+    runAsUser: 101
+    runAsGroup: 82
+  containerSecurityContext:
+    # OpenShift manages these through SCCs
+    runAsUser: 101
+    runAsGroup: 82
+    allowPrivilegeEscalation: true
+  admissionWebhooks:
+    createSecretJob:
+      name: create
+      # -- Deadline in seconds for the job to complete. Must be greater than 0 to enforce. If unset or 0, no deadline is enforced.
+      activeDeadlineSeconds: 0
+      # -- Security context for secret creation containers
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: null
+        runAsGroup: null
+        allowPrivilegeEscalation: false
+        seccompProfile:
+          type: RuntimeDefault
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+  # extraVolumes:
+  #   - name: temp-ssl
+  #     emptyDir: {}
+  #   - name: temp-lua
+  #     emptyDir: {}
+  #   - name: temp-telemetry
+  #     emptyDir: {}
+
+  # extraVolumeMounts:
+  #   - name: temp-ssl
+  #     mountPath: /etc/ingress-controller/ssl
+  #   - name: temp-lua
+  #     mountPath: /etc/nginx/lua
+  #   - name: temp-telemetry
+  #     mountPath: /etc/ingress-controller/telemetry

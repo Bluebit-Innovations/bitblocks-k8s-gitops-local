@@ -1,95 +1,55 @@
 #repos
-
+# Public Git repository
+resource "argocd_repository" "public_bitblock_repo" {
+  repo = "git@github.com:Bluebit-Innovations/bitblocks-k8s-gitops-local.git"
+  project = "default"
+  depends_on = [helm_release.argocd]
+}
 
 #projects
-
-resource "argocd_project" "myproject" {
+resource "argocd_project" "testproject" {
   metadata {
-    name      = "myproject"
+    name      = "testproject"
     namespace = "argocd"
     labels = {
       acceptance = "true"
     }
     annotations = {
-      "this.is.a.really.long.nested.key" = "yes, really!"
+        project-name = "testproject"
     }
   }
 
   spec {
-    description = "simple project"
+    description = "Project to test how an argocd project works"
 
     source_namespaces = ["argocd"]
     source_repos      = ["*"]
 
     destination {
       server    = "https://kubernetes.default.svc"
-      namespace = "default"
-    }
-    destination {
-      server    = "https://kubernetes.default.svc"
-      namespace = "foo"
-    }
-    destination {
-      name      = "anothercluster"
-      namespace = "bar"
+      namespace = "*"
     }
 
-    cluster_resource_blacklist {
-      group = "*"
-      kind  = "*"
-    }
-    cluster_resource_whitelist {
-      group = "rbac.authorization.k8s.io"
-      kind  = "ClusterRoleBinding"
-    }
-    cluster_resource_whitelist {
-      group = "rbac.authorization.k8s.io"
-      kind  = "ClusterRole"
-    }
-
-    namespace_resource_blacklist {
-      group = "networking.k8s.io"
-      kind  = "Ingress"
-    }
-    namespace_resource_whitelist {
-      group = "*"
-      kind  = "*"
-    }
-
-    orphaned_resources {
-      warn = true
-
-      ignore {
-        group = "apps/v1"
-        kind  = "Deployment"
-        name  = "ignored1"
-      }
-
-      ignore {
-        group = "apps/v1"
-        kind  = "Deployment"
-        name  = "ignored2"
-      }
-    }
 
     role {
       name = "testrole"
       policies = [
-        "p, proj:myproject:testrole, applications, override, myproject/*, allow",
-        "p, proj:myproject:testrole, applications, sync, myproject/*, allow",
-        "p, proj:myproject:testrole, clusters, get, myproject/*, allow",
-        "p, proj:myproject:testrole, repositories, create, myproject/*, allow",
-        "p, proj:myproject:testrole, repositories, delete, myproject/*, allow",
-        "p, proj:myproject:testrole, repositories, update, myproject/*, allow",
-        "p, proj:myproject:testrole, logs, get, myproject/*, allow",
-        "p, proj:myproject:testrole, exec, create, myproject/*, allow",
+        "p, proj:testproject:testrole, applications, override, testproject/*, allow",
+        "p, proj:testproject:testrole, applications, sync, testproject/*, allow",
+        "p, proj:testproject:testrole, clusters, get, testproject/*, allow",
+        "p, proj:testproject:testrole, repositories, create, testproject/*, allow",
+        "p, proj:testproject:testrole, repositories, delete, testproject/*, allow",
+        "p, proj:testproject:testrole, repositories, update, testproject/*, allow",
+        "p, proj:testproject:testrole, logs, get, testproject/*, allow",
+        "p, proj:testproject:testrole, exec, create, testproject/*, allow",
       ]
     }
+
     role {
       name = "anotherrole"
       policies = [
-        "p, proj:myproject:testrole, applications, get, myproject/*, allow",
-        "p, proj:myproject:testrole, applications, sync, myproject/*, deny",
+        "p, proj:testproject:anotherrole, applications, get, testproject/*, allow",
+        "p, proj:testproject:anotherrole, applications, sync, testproject/*, deny",
       ]
     }
 
@@ -107,17 +67,41 @@ resource "argocd_project" "myproject" {
       applications = ["foo"]
       clusters     = ["in-cluster"]
       namespaces   = ["default"]
-      duration     = "12h"
+      duration     = "72h"
       schedule     = "22 1 5 * *"
       manual_sync  = false
       timezone     = "Europe/London"
     }
 
-    signature_keys = [
-      "4AEE18F83AFDEB23",
-      "07E34825A909B250"
-    ]
+    signature_keys = []
   }
+  depends_on = [helm_release.argocd]
 }
 
 #apps
+
+resource "argocd_application" "umbrella_app" {
+  metadata {
+    name      = "umbrella-app"
+    namespace = "argocd"
+    labels = {
+      test = "true"
+    }
+  }
+
+  spec {
+    project = "testproject"
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "default"
+    }
+
+    source {
+      repo_url        = "https://github.com/Bluebit-Innovations/bitblocks-k8s-gitops-local"
+      path           = "apps"
+      target_revision = "main"
+    }
+  }
+
+  depends_on = [helm_release.argocd, argocd_project.testproject, argocd_repository.public_bitblock_repo]
+}
