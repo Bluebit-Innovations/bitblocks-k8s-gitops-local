@@ -5,6 +5,8 @@ kind: Application
 metadata:
   name: {{ printf "example.%s" .name | quote }}
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /ops/umbrella-apps;/charts 
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:

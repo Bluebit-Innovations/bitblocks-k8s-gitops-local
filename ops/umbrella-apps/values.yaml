@@ -9,6 +9,7 @@ config:
 
 applications:
   - name: blue-green
+    path: charts/blue-green
     sourceHelm: false
     tool:
       helm:
@@ -33,5 +34,5 @@ applications:
       helm:
         releaseName: ingress-nginx
         valueFiles:
-          - ingress-nginx/values-nginx.yaml 
+          - charts/ingress-nginx/values-nginx.yaml 
         
