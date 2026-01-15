@@ -10,12 +10,14 @@ The goal of this project is to create a GitOps-focused service that enables cons
 
 This directory contains the following components:
 
+- **apps/** - Core applications for local testing
+- **charts/** - Helm charts directory containing custom value files for public, private, and OCI-based remote charts, along with locally hosted custom Helm charts managed by ArgoCD.
 - **infra/** - Terraform infrastructure to configure and setup local Kubernetes clusters (Kind, K3S, Microshift, etc.)
     - GitOps configuration
     - Observability stack
     - Security policies
 
-- **ops/** - Operational services for cluster management
+- **ops/** - Operational services and configs for cluster management
     - GitOps automation
     - Observability and monitoring
     - Security enforcement
@@ -26,4 +28,3 @@ This directory contains the following components:
 
 - **services/** - Supporting services (databases, caches, event buses, etc.)
 
-- **apps/** - Core applications for local testing
