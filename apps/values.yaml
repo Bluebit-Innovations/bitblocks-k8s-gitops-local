@@ -23,15 +23,15 @@ applications:
   #     helm:
   #       releaseName: nginx
 
-  # - name: ingress-nginx
-  #   namespace: ingress-nginx
-  #   chart: ingress-nginx
-  #   sourceHelm: true
-  #   repoURL: https://kubernetes.github.io/ingress-nginx
-  #   targetRevision: 4.14.1
-  #   tool:
-  #     helm:
-  #       releaseName: ingress-nginx
-  #       valueFiles:
-  #         - ingress-nginx/values-nginx.yaml 
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    chart: ingress-nginx
+    sourceHelm: true
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.14.1
+    tool:
+      helm:
+        releaseName: ingress-nginx
+        valueFiles:
+          - ingress-nginx/values-nginx.yaml 
         
