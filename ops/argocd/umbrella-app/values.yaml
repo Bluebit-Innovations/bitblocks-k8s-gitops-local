@@ -25,6 +25,7 @@ applications:
   #       releaseName: nginx
 
   - name: ingress-nginx
+    project: testproject
     namespace: ingress-nginx
     chart: ingress-nginx
     sourceHelm: true

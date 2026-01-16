@@ -89,7 +89,28 @@ resource "argocd_application" "umbrella_app" {
     }
   }
 
+
   spec {
+
+    sync_policy {
+      automated {
+        prune       = true
+        self_heal   = true
+        allow_empty = true
+      }
+
+    # Only available from ArgoCD 1.5.0 onwards
+      sync_options = ["Validate=false"]
+      retry {
+        limit = "5"
+        backoff {
+          duration     = "30s"
+          max_duration = "2m"
+          factor       = "2"
+        }
+      }
+        }
+
     project = "testproject"
     destination {
       server    = "https://kubernetes.default.svc"
@@ -98,7 +119,7 @@ resource "argocd_application" "umbrella_app" {
 
     source {
       repo_url        = "https://github.com/Bluebit-Innovations/bitblocks-k8s-gitops-local"
-      path           = "apps"
+      path           = "ops/argocd/umbrella-app"
       target_revision = "main"
     }
   }
