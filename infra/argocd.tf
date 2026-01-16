@@ -58,7 +58,7 @@ resource "argocd_project" "testproject" {
       applications = ["api-*"]
       clusters     = ["*"]
       namespaces   = ["*"]
-      duration     = "3600s"
+      duration     = "24h"
       schedule     = "10 1 * * *"
       manual_sync  = true
     }
