@@ -1,0 +1,52 @@
+{{- range .Values.applications }}
+{{- $config := $.Values.config -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ printf "example.%s" .name | quote }}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /ops/umbrella-apps;/charts 
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: {{ .namespace | default .name | quote }}
+    server: {{ $config.spec.destination.server | quote }}
+  project: {{ .project | default "default" quote }}
+{{- if eq .sourceHelm true }}
+  sources:
+    - chart: {{ .chart | default .name }}
+      repoURL: {{ .repoURL }}
+      targetRevision: {{ .targetRevision }}
+      helm:
+        {{- if .tool.helm.valueFiles }}
+        valueFiles:
+          {{- range .tool.helm.valueFiles }}
+          # Prefix the file with '$alias/' to pull it from the second source
+          - {{ printf "$values-repo/%s" . }}
+          {{- end }}
+        {{- end }}
+        releaseName: {{ .tool.helm.releaseName }}
+
+    # Source 2: The Values Repository (referenced as $values-repo)
+    - repoURL: {{ $config.spec.source.repoURL }}
+      targetRevision: {{ $config.spec.source.targetRevision }}
+      ref: values-repo  # Alias used in the prefix above
+{{- else }}
+  source:
+    path: {{ .path | default .name | quote }}
+    repoURL: {{ $config.spec.source.repoURL }}
+    targetRevision: {{ $config.spec.source.targetRevision }}
+    {{- with .tool }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+{{- end }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+---
+{{ end -}}
