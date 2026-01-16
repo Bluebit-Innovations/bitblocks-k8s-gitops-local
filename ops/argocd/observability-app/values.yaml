@@ -11,6 +11,7 @@ applications:
   - name: local-prometheus-stack
     namespace: monitoring
     chart: local-prometheus-stack
+    project: k8s-local
     sourceHelm: true
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 80.14.4
