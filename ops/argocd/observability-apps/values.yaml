@@ -1,0 +1,22 @@
+config:
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: https://github.com/Bluebit-Innovations/bitblocks-k8s-gitops-local
+      targetRevision: main
+
+
+applications:
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    chart: ingress-nginx
+    sourceHelm: true
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.14.1
+    tool:
+      helm:
+        releaseName: ingress-nginx
+        valueFiles:
+          - charts/ingress-nginx/values-nginx.yaml 
+        
