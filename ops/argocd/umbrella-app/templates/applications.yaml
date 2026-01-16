@@ -13,7 +13,7 @@ spec:
   destination:
     namespace: {{ .namespace | default .name | quote }}
     server: {{ $config.spec.destination.server | quote }}
-  project: default
+  project: {{ .project | default "default" quote }}
 {{- if eq .sourceHelm true }}
   sources:
     - chart: {{ .chart | default .name }}
