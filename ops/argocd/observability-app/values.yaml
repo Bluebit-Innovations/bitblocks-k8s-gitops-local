@@ -8,15 +8,15 @@ config:
 
 
 applications:
-  - name: ingress-nginx
-    namespace: ingress-nginx
-    chart: ingress-nginx
+  - name: local-prometheus-stack
+    namespace: monitoring
+    chart: local-prometheus-stack
     sourceHelm: true
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.14.1
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 80.14.4
     tool:
       helm:
-        releaseName: ingress-nginx
+        releaseName: local-prometheus-stack
         valueFiles:
-          - charts/ingress-nginx/values-nginx.yaml 
+          - charts/local-prometheus-stack/values.yaml 
         
