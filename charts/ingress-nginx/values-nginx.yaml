@@ -16,12 +16,12 @@ controller:
     type: NodePort
   image:
     # Explicitly set to null to allow OpenShift to assign a random UID
-    runAsUser: 101
-    runAsGroup: 82
+    runAsUser: null
+    runAsGroup: null
   containerSecurityContext:
     # OpenShift manages these through SCCs
-    runAsUser: 101
-    runAsGroup: 82
+    runAsUser: null
+    runAsGroup: null
     allowPrivilegeEscalation: true
   admissionWebhooks:
     createSecretJob:
