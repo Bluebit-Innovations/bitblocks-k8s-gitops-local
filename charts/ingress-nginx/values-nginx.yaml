@@ -22,7 +22,7 @@ controller:
     # OpenShift manages these through SCCs
     runAsUser: null
     runAsGroup: null
-    allowPrivilegeEscalation: true
+    allowPrivilegeEscalation: false
   admissionWebhooks:
     createSecretJob:
       name: create
