@@ -85,7 +85,7 @@ resource "argocd_project" "k8s-local" {
   }
 
   spec {
-    description = "This projeect is dedicate to deployment of applications into various local k8s clusters(microshift,kind,k3s etc)"
+    description = "This project is dedicate to deployment of applications into various local k8s clusters(microshift,kind,k3s etc)"
 
     source_namespaces = ["argocd"]
     source_repos      = ["*"]
@@ -95,6 +95,15 @@ resource "argocd_project" "k8s-local" {
       namespace = "*"
     }
 
+    cluster_resource_whitelist {
+      group = "*"
+      kind  = "*"
+    }
+
+    namespace_resource_whitelist {
+      group = "*"
+      kind  = "*"
+    }
 
     # role {
     #   name = "testrole"
