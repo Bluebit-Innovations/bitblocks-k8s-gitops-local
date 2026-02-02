@@ -1,7 +1,7 @@
 prometheusOperator:
   securityContext:
-    fsGroup: 65534
-    runAsGroup: 65534
+    fsGroup: null
+    runAsGroup: null
     runAsNonRoot: true
     runAsUser: null
     seccompProfile:
@@ -9,15 +9,15 @@ prometheusOperator:
   admissionWebhooks:
     deployment:
       securityContext:
-        fsGroup: 65534
-        runAsGroup: 65534
+        fsGroup: null
+        runAsGroup: null
         runAsNonRoot: true
         runAsUser: null
         seccompProfile:
           type: RuntimeDefault
     patch:
       securityContext:
-        runAsGroup: 2000
+        runAsGroup: null
         runAsNonRoot: true
         runAsUser: null
         seccompProfile:
