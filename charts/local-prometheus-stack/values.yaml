@@ -1,0 +1,35 @@
+prometheusOperator:
+  securityContext:
+    fsGroup: 65534
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: null
+    seccompProfile:
+      type: RuntimeDefault
+  admissionWebhooks:
+    deployment:
+      securityContext:
+        fsGroup: 65534
+        runAsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: null
+        seccompProfile:
+          type: RuntimeDefault
+    patch:
+      securityContext:
+        runAsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: null
+        seccompProfile:
+          type: RuntimeDefault
+
+
+prometheus:
+  prometheusSpec:
+    securityContext:
+      runAsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: null
+      fsGroup: 2000
+      seccompProfile:
+        type: RuntimeDefault
