@@ -1,3 +1,13 @@
+grafana:
+  enabled: false
+nodeExporter:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+alertmanager:
+  enabled: false
+
+
 prometheusOperator:
   securityContext:
     fsGroup: null
@@ -27,9 +37,9 @@ prometheusOperator:
 prometheus:
   prometheusSpec:
     securityContext:
-      runAsGroup: 2000
+      runAsGroup: null
       runAsNonRoot: true
       runAsUser: null
-      fsGroup: 2000
+      fsGroup: null
       seccompProfile:
         type: RuntimeDefault
