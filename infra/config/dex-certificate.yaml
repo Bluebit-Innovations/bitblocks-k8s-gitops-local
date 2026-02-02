@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dex-tls
+  namespace: dex
+spec:
+  secretName: dex-tls-secret
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - api.crc.testing
+  # If using NodePort or LoadBalancer, you can also add:
+  # ipAddresses:
+  #   - 127.0.0.1
