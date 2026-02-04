@@ -6,7 +6,8 @@ kubeStateMetrics:
   enabled: false
 alertmanager:
   enabled: false
-
+thanosRuler:
+  enabled: false
 
 prometheusOperator:
   securityContext:
