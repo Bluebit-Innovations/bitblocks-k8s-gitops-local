@@ -8,7 +8,7 @@ config:
 
 
 applications:
-  - name: local-prometheus-stack
+  - name: prom-stack
     namespace: monitoring
     chart: kube-prometheus-stack
     project: k8s-local
@@ -17,7 +17,7 @@ applications:
     targetRevision: 80.14.4
     tool:
       helm:
-        releaseName: local-prometheus-stack
+        releaseName: prom-stack
         valueFiles:
           - charts/local-prometheus-stack/values.yaml 
         
