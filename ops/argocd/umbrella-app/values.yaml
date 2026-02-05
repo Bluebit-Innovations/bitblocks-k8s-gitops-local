@@ -8,21 +8,19 @@ config:
 
 
 applications:
-  - name: blue-green
-    path: charts/blue-green
+  # - name: blue-green
+  #   path: charts/blue-green
+  #   sourceHelm: false
+  #   tool:
+  #     helm:
+  #       releaseName: blue-green
+
+  - name: demo-service
+    path: charts/microservices-demo
     sourceHelm: false
     tool:
       helm:
-        releaseName: blue-green
-
-  # - name: nginx
-  #   namespace: nginx
-  #   sourceHelm: true
-  #   repoURL: registry-1.docker.io/bitnamicharts
-  #   targetRevision: 15.9.0
-  #   tool:
-  #     helm:
-  #       releaseName: nginx
+        releaseName: demo-service
 
   - name: ingress-nginx
     project: testproject
@@ -36,4 +34,7 @@ applications:
         releaseName: ingress-nginx
         valueFiles:
           - charts/ingress-nginx/values-nginx.yaml 
+
+
+
         
